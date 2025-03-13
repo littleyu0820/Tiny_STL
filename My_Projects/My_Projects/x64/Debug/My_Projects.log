@@ -1,4 +1,0 @@
-﻿  My_STL.cpp
-C:\Users\user\OneDrive\桌面\Program\專案\My_Projects\My_Projects\My_STL.cpp(35,1): warning C4172: returning address of local variable or temporary : tmp
-C:\Users\user\OneDrive\桌面\Program\專案\My_Projects\My_Projects\My_STL.cpp(23,1): warning C4172: returning address of local variable or temporary : tmp
-  My_Projects.vcxproj -> C:\Users\user\OneDrive\桌面\Program\專案\My_Projects\x64\Debug\My_Projects.exe
