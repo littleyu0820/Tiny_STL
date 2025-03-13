@@ -1,0 +1,48 @@
+This is not a reference of a reference, 
+but rather a new language feature called an rvalue reference that represents (informally) a reference to an object in memory 
+that isn't referenced elsewhere in the program and can be destructively modified. 
+
+For example, the return value of a function can be captured by an rvalue reference, 
+as can temporary values introduced into expressions.
+
+Rvalue references can be used for a variety of purposes. 
+
+From the perspective of most C++ programmers, they can be used to implement move semantics, 
+whereby a new object can be initialized by "moving" the contents of an old object out of the old object and into a new object. 
+
+You can use this to return huge objects from functions in C++11 without paying a huge cost to copy the object, 
+since the object used to capture the return value can be initialized using the move constructor
+by just stealing the internals from the temporary object created by the return statement.
+
+Move semantics are orthogonal to copy semantics, 
+so objects can be movable without being copyable. 
+
+For example, std::ofstreams are not copyable, 
+but they will be movable, 
+so you could return std::ofstreams from functions using the move behavior. 
+
+This currently cannot be done in C++03. 
+For example, this code is illegal in C++03 but perfectly fine (and encouraged!) in C++11:
+
+Intuitively, a function that takes an rvalue reference is a function 
+that (probably) is trying to avoid an expensive copy by moving the contents of an old object into a new object. 
+
+For example, you could define a move constructor for a vector-like object by having that constructor take in an rvalue reference. 
+
+If we represent the vector as a triple of a pointer to an array,
+the capacity of the array, and the used space, we might implement its move constructor as follows:
+
+
+vector::vector(vector&& rhs) {
+    /* Steal resources from rhs. */
+    elems    = rhs.elems;
+    size     = rhs.size;
+    capacity = rhs.capacity;
+
+    /* Destructively modify rhs to avoid having two objects sharing 
+     * an underlying array.
+     */
+    rhs.elems    = nullptr; // Note use of nullptr instead of NULL
+    rhs.size     = 0;
+    rhs.capacity = 0;
+}
