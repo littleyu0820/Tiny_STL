@@ -18,9 +18,10 @@
 ### 2. Create Insert_Element and Remove_Element function: push_back() and pop_back()
 ### 3. Create Increase Vector Capacity function: realloacate()
 ### 4. Create Iterator funcion include prefix/postfix increment, prefix/postfix decrement and compare function.
-
+### 5. Create Front and Back function that we can access the first element and the last element:front(), back()
+### 6. Create Empty function that we can recognize whether the vecotr is empty or not: empty()
+### 7. Create Clear funciton that we can pop all elements in the vector:clear()
 
 # Updating Functions:
-### 1. Create front()/back()
-### 2. create empty()/clear()
-
+### 1. Move semantics
+### 2. Memory Manage
