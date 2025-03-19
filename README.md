@@ -28,8 +28,31 @@
 ### 2. Memory Manage
 
 # Details
-1. Create the constructor
+## Create the constructor
+1. Default Constructor:
 ```c++
-
+MyVector() : data(nullptr), the_first(nullptr), size(nullptr), capacity(nullptr) 
+{ 
+	std::cout << "Constructing Vector..." << std::endl; 
+} //constructor and there is no memory for data now
 ```
-11
+2. Copy Constructor:
+```c++
+MyVector(const MyVector& v) //copy
+{
+	auto new_data = copy_alloc(v.begin(), v.end());
+	the_first = new_data.first;
+	size = capacity = new_data.second;
+	std::cout << "Copying Vector..." << std::endl;
+} 
+```
+3. Move Constructor:
+```c++
+MyVector(MyVector&& v) noexcept://move
+	the_first(v.the_first), size(v.size), capacity(v.capacity)
+{
+	v.the_first = v.size = v.capacity = nullptr;
+	std::cout << "Moving Vector..." << std::endl;
+}
+```
+
