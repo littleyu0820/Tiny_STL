@@ -26,14 +26,14 @@
 
 # Details
 ## Create the constructor
-1. Default Constructor:
+## 1. Default Constructor:
 ```c++
 MyVector() : data(nullptr), the_first(nullptr), size(nullptr), capacity(nullptr) 
 { 
 	std::cout << "Constructing Vector..." << std::endl; 
 } //constructor and there is no memory for data now
 ```
-2. Copy Constructor:
+## 2. Copy Constructor:
 ```c++
 MyVector(const MyVector& v) //copy
 {
@@ -43,7 +43,7 @@ MyVector(const MyVector& v) //copy
 	std::cout << "Copying Vector..." << std::endl;
 } 
 ```
-3. Move Constructor:
+## 3. Move Constructor:
 ```c++
 MyVector(MyVector&& v) noexcept://move
 	the_first(v.the_first), size(v.size), capacity(v.capacity)
