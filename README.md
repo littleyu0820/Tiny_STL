@@ -51,4 +51,47 @@ MyVector(MyVector&& v) noexcept://move
 	std::cout << "Moving Vector..." << std::endl;
 }
 ```
+## 4. Reallocate:
+```c++
+void reallocate(size_t new_capacity)
+{
+	auto first = alloc.allocate(new_capacity);
+	auto last = std::uninitialized_copy(std::make_move_iterator(begin()), std::make_move_iterator(end()), first);
 
+	clear();
+	the_first = first;
+	size = last;
+	capacity = the_first + new_capacity;
+}
+```
+## 5. uninitialized_copy(b,e,data): Copy the element from b to e into data.
+## 6. Remove Elemnet:
+```c++
+void pop_back() //remove the last element
+{
+	if (size != the_first)
+	{
+		alloc.destroy(--size);
+	}
+}
+```
+## 7. destroy(p): Remove the element from position p but we need to know the memory is not freed.
+## 8. Add Element:
+```c++
+void push_back(const T& value) //bind to lvalue we construct by copying
+{
+	if (get_size() == get_capacity()) //only when we insert the element that the capacity will not be enough
+	{
+		reallocate(get_capacity() == 0 ? 1 : get_capacity() * 2);
+	}
+	alloc.construct(size++, value);
+}
+void push_back(T&& value) //bind to rvalue so that we can construct by moving		
+{
+	if (get_size() == get_capacity()) //only when we insert the element that the capacity will not be enough
+	{
+		reallocate(get_capacity() == 0 ? 1 : get_capacity() * 2);
+	}
+	alloc.construct(size++, std::move(value));
+}
+```
