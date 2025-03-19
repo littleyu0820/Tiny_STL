@@ -23,9 +23,6 @@
 ### 7. Create Clear funciton that we can pop all elements in the vector:clear()
 ### 8. Create Free funciton that we can free out memory: free()
 
-# Updating Functions
-### 1. Move semantics
-### 2. Memory Manage
 
 # Details
 ## Create the constructor
