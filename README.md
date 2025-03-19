@@ -25,7 +25,6 @@
 
 
 # Details
-## Create the constructor
 ## 1. Default Constructor:
 ```c++
 MyVector() : data(nullptr), the_first(nullptr), size(nullptr), capacity(nullptr) 
