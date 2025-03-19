@@ -48,7 +48,7 @@ public:
 	}
 	~MyVector() 
 	{ 
-		alloc.deallocate(the_first, capacity - the_first);
+		free();
 		std::cout << "Destructing Vector..." << std::endl;
 	} //Will be implemented when we leave the scope or use delete
 	// avoid memory leak
@@ -143,17 +143,34 @@ public:
 		}
 	}
 
-	T& operator[](size_t index) 
+	T& operator[](const size_t& index) 
 	{ 
-		data = alloc.allocate(get_size());
-		std::uninitialized_copy(std::make_move_iterator(begin()), std::make_move_iterator(end()), data);
-		return data[index]; 
+	
+	
+		if (index < get_size())
+			return the_first[index];
+		else
+		{
+			std::cerr << "Error: in function " << __func__<< " at line " << __LINE__ 
+				<< " Compiled on "<< __DATE__ << " at " << __TIME__ << std::endl 
+				<< "The index "<< index << " is too big." << std::endl;
+			exit(1);
+		}
+	
+		
 	} //The function support us to use index(lavalue) access vector
-	const T& operator[](size_t index) const 
+	T& operator[](const size_t&& index)
 	{ 
-		data = alloc.allocate(get_size());
-		std::uninitialized_copy(std::make_move_iterator(begin()), std::make_move_iterator(end()), data);
-		return data[index];
+		if (index < get_size())
+			return the_first[index];
+		else
+		{
+			std::cerr << "Error: in function " << __func__ << " at line " << __LINE__
+				<< " Compiled on " << __DATE__ << " at " << __TIME__ << std::endl
+				<< "The index " << index << " is too big." << std::endl;
+			exit(1);
+		}
+		
 	} //The function support us to use index(rvalue) access vector
 
 	MyVector& operator=(const MyVector& rhs) &
@@ -162,17 +179,16 @@ public:
 		free();
 		the_first = new_data.first;
 		size = capacity = new_data.second;
-
 		return *this;	
 	}
-	MyVector& operator=(MyVector&& rhs) noexcept
+	MyVector& operator=(MyVector&& rhs) & noexcept
 	{
 		if (this != &rhs)
 		{
 			free();
-			the_first = rhs.the_first;
-			size = rhs.size;
-			capacity = rhs.capacity;
+			the_first = std::move(rhs.the_first);
+			size = std::move(rhs.size);
+			capacity = std::move(rhs.capacity);
 			rhs.the_first = rhs.size = rhs.capacity = nullptr;
 		}
 		return *this;
@@ -181,11 +197,12 @@ public:
 	size_t get_size() const { return size - the_first; }
 	size_t get_capacity() const { return capacity - the_first; }
 
-	T* begin() const { return the_first; } //
-	T* end() const { return size; } //
+	T* begin() const { return the_first; }
+	T* end() const { return size; }
 
-	T& front() { return *the_first; } //return first element
-	T& back() { return *(--size); } //return last element
+
+	const T& front() { return *the_first; } //return first element
+	const T& back() { return *(--size); } //return last element
 
 	bool empty() { return the_first == size ? 1 : 0; }
 
@@ -207,8 +224,6 @@ public:
 		}
 		alloc.deallocate(the_first, capacity - the_first);
 	}
-
-
 
 private:
 
@@ -238,7 +253,7 @@ private:
 		auto new_one = alloc.allocate(e - b);
 		return { new_one, std::uninitialized_copy(b, e, new_one)};
 	}
-
+	//return a pair of the first element and the last element
 
 
 };
@@ -247,10 +262,10 @@ std::allocator<T> MyVector<T>::alloc;
 
 int main()
 {
-
+	//Test consturct
 	MyVector<int> vec, vec2, vec3;
 	
-
+	//Test push
 	vec.push_back(10);
 	vec.push_back(20);
 	vec.push_back(30);
@@ -261,8 +276,26 @@ int main()
 	vec2.push_back(20);
 	vec2.push_back(30);
 
-	MyVector<int> vec4(vec);//test copy
+	//Test array
+	//for (size_t i = 0; i < vec.get_size(); ++i)
+	//{
+	//	std::cout << vec[i] << std::endl;
+	//}
 
+	//std::cout << vec[3] << std::endl;
+
+
+	//Test copy
+	MyVector<int> vec4(vec);
+	std::cout << "Vec4: " << std::flush;
+	for (auto v : vec4)
+	{
+		std::cout << v << " ";
+	}
+
+	std::cout << "\n" << "----------------------------" << std::endl;
+	std::cout << "----------------------------" << std::endl;
+	std::cout << "----------------------------" << std::endl;
 
 	//Test moving
 	//Before moving
@@ -271,8 +304,8 @@ int main()
 	{
 		std::cout << v << " ";
 	}
-
-	std::cout << "----------------------------" << std::endl;
+	
+	std::cout << "\n" << "----------------------------" << std::endl;
 	std::cout << "----------------------------" << std::endl;
 	std::cout << "----------------------------" << std::endl;
 
@@ -284,7 +317,7 @@ int main()
 		std::cout << v << " ";
 	}
 
-	std::cout << "----------------------------" << std::endl;
+	std::cout << "\n" << "----------------------------" << std::endl;
 	std::cout << "----------------------------" << std::endl;
 	std::cout << "----------------------------" << std::endl;
 	std::cout << "Vec5: " << std::flush;
@@ -293,22 +326,21 @@ int main()
 		std::cout << v << " ";
 	}
 
-	std::cout << "----------------------------" << std::endl;
+	std::cout << "\n" << "----------------------------" << std::endl;
 	std::cout << "----------------------------" << std::endl;
 	std::cout << "----------------------------" << std::endl;
 
+	//Test pop
 	vec.pop_back();
 
 
-	//test data
 	for (auto v : vec)
 	{
 		std::cout << v << " ";
 	}
 
-	std::cout << std::endl;
 	//test capacity realloacate
-	std::cout << "The size is " << vec.get_size() << ".\n" << "The capacity is " << vec.get_capacity() << "." << std::endl;
+	std::cout << "\n" << "The size is " << vec.get_size() << ".\n" << "The capacity is " << vec.get_capacity() << "." << std::endl;
 
 	std::cout << "----------------------------" << std::endl;
 	std::cout << "----------------------------" << std::endl;
@@ -375,16 +407,19 @@ int main()
 
 	
 
-	//std::cout << "Do you want to clear the screen?(Yes or No) " << "\n";
-	//std::cout << ": " << std::flush;
+	std::cout << "Do you want to clear the screen?(Yes or No) " << "\n";
+	std::cout << ": " << std::flush;
 
-	//std::string YesOrNo;
-	//std::cin >> YesOrNo;
+	std::string YesOrNo;
+	std::cin >> YesOrNo;
 
-	//std::transform(YesOrNo.begin(), YesOrNo.end(), YesOrNo.begin(), ::tolower);
+	std::transform(YesOrNo.begin(), YesOrNo.end(), YesOrNo.begin(), ::tolower);
 
-	//if (YesOrNo == "yes")
-	//	std::system("cls");
+	if (YesOrNo == "yes")
+		std::system("cls");
+
+
+	
 
 
 
