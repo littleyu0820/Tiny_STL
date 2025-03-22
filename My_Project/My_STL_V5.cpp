@@ -2,6 +2,8 @@
 #include <memory>
 #include <algorithm>
 #include <utility>
+#include <fstream>
+#include <sstream>
 
 
 
@@ -55,6 +57,11 @@ public:
 			return *t_ptr;
 		}
 
+		T* operator&()
+		{
+			return t_ptr;
+		}
+
 		Iterator operator++()
 		{
 			++t_ptr;
@@ -78,6 +85,20 @@ public:
 			return tmp;
 		}
 
+		
+		Iterator operator+(int pos)
+		{
+			while (pos-- > 0)
+				++t_ptr;
+			return *this;
+		}
+
+		Iterator operator-(int pos)
+		{
+			while (pos-- > 0)
+				--t_ptr;
+			return *this;
+		}
 
 		bool operator==(const Iterator& rhs)
 		{
@@ -261,20 +282,148 @@ private:
 
 
 
-void Marks()
-{
-	std::cout << "\n" << "----------------------------" << std::endl;
-	std::cout << "----------------------------" << std::endl;
-	std::cout << "----------------------------" << std::endl;
-}
-
 
 template <typename T>
 std::allocator<T> MyVector<T>::alloc;
 
 void Marks();
+int print_blocks();
+void test_vector();
+void test_iterator();
 
 int main()
+{
+
+	
+	int choose = print_blocks();
+	switch (choose)
+	{
+	case 1:
+		test_vector();
+		break;
+	case 2:
+		
+		break;
+	case 3:
+		
+		break;
+	case 4:
+		test_iterator();
+		break;
+	default:
+		break;
+	}
+
+	//test_vector();
+
+	//void test_iterator();
+
+
+	return 0;
+}
+
+void Marks()
+{
+	std::string line(36, '-');
+	std::cout << "\n";
+	for(int i = 3; i > 0; --i)
+		std::cout << line << std::endl;
+}
+
+int print_blocks()
+{
+	std::string up_down_line(36, '*');
+	//std::string the_space(34, ' ');
+
+	std::cout << "Welcome to My_STL!" << std::endl;
+	std::cout << "What container do you want to test?" << std::endl;
+
+	std::cout << up_down_line << std::endl;
+	for (int i = 6; i > 0; --i)
+	{
+		switch(i)
+		{
+		case 6:
+			std::cout << "1. Test Vector" << std::endl;
+			break;
+		case 5:
+			std::cout << "2. Test List" << std::endl;
+			break;
+		case 4:
+			std::cout << "3. Test Array" << std::endl;
+			break;
+		case 3:
+			std::cout << "4. Test Iterator" << std::endl;
+			break;
+		default:
+			break;
+		}
+	}
+		
+	std::cout << "\n" << up_down_line << std::endl;
+
+	std::cout << "Please choose: " << std::flush;
+	int choose = 0;
+	std::cin >> choose;
+	switch (choose)
+	{
+	case 1:
+		std::cout << "1. We're going to test Vector!\n" << std::endl;
+		break;
+	case 2:
+		std::cout << "2. We're going to test List!\n" << std::endl;
+		break;
+	case 3:
+		std::cout << "3. We're going to test Array!\n" << std::endl;
+		break;
+	case 4:
+		std::cout << "4. We're going to test Iterator!\n" << std::endl;
+		break;
+	default:
+		break;
+	}
+	return choose;
+}
+
+
+void test_iterator()
+{
+
+	std::cout << "Test Iterator" << std::endl;
+	//Test the function for iterator
+	MyVector<int> vec;
+
+	vec.push_back(10);
+	vec.push_back(20);
+	vec.push_back(30);
+
+	auto beg = vec.begin();
+	auto end = vec.end();
+	std::cout << *(beg) << std::endl;
+	std::cout << *(beg + 1) << std::endl;
+	std::cout << *(beg + 1) << std::endl;
+	std::cout << *(beg + 1) << std::endl;
+
+	std::cout << *(end) << std::endl;
+	std::cout << *(end - 1) << std::endl;
+	std::cout << *(end - 1) << std::endl;
+	std::cout << *(end - 1) << std::endl;
+
+	beg = vec.begin();
+	end = vec.end();
+
+	std::cout << &(beg) << std::endl;
+	std::cout << &(beg + 1) << std::endl;
+	std::cout << &(beg + 1) << std::endl;
+	std::cout << &(beg + 1) << std::endl;
+
+	std::cout << &(end) << std::endl;
+	std::cout << &(end - 1) << std::endl;
+	std::cout << &(end - 1) << std::endl;
+	std::cout << &(end - 1) << std::endl;
+}
+
+void test_vector()
 {
 	//Test consturct
 	MyVector<int> vec, vec2, vec3;
@@ -290,19 +439,8 @@ int main()
 	vec2.push_back(20);
 	vec2.push_back(30);
 
-	//Test Iterator
-	std::cout << "Test iterator. " << std::endl;
-	auto bbegg = vec.begin();
-	auto eendd = vec.end();
-	std::cout << *bbegg << std::endl;
-	std::cout << *++bbegg << std::endl;
-	std::cout << *bbegg++ << std::endl;
-	std::cout << *bbegg << std::endl;
-	std::cout << *eendd << std::endl;
-	std::cout << *--eendd << std::endl;
-	std::cout << *eendd-- << std::endl;
-	std::cout << *eendd << std::endl;
-	
+
+
 	Marks();
 
 	std::cout << "Test index. " << std::endl;
@@ -468,7 +606,8 @@ int main()
 
 	std::cout << "This is a test please enter any numbers or words.(Max:5)" << std::endl;
 	std::cout << ": " << std::flush;
-	while (ctr++ < 5 && std::cin >> input)
+	std::cin.get();
+	while (ctr++ < 5 && getline(std::cin, input))
 	{
 		if (ctr < 5)
 			std::cout << ": " << std::flush;
@@ -499,9 +638,4 @@ int main()
 		std::cout << "After clear the vector is not empty!" << std::endl;
 	else
 		std::cout << "After clear the vector is empty!" << " \nAnd the size is: " << test_vec.get_size() << std::endl;
-
-
-
-
-	return 0;
 }
