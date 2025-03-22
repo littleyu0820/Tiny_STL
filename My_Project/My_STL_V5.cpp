@@ -347,10 +347,10 @@ int print_blocks()
 			std::cout << "1. Test Vector" << std::endl;
 			break;
 		case 5:
-			std::cout << "2. Test List" << std::endl;
+			std::cout << "2. Test Map" << std::endl;
 			break;
 		case 4:
-			std::cout << "3. Test Array" << std::endl;
+			std::cout << "3. Test Set" << std::endl;
 			break;
 		case 3:
 			std::cout << "4. Test Iterator" << std::endl;
@@ -371,10 +371,10 @@ int print_blocks()
 		std::cout << "1. We're going to test Vector!\n" << std::endl;
 		break;
 	case 2:
-		std::cout << "2. We're going to test List!\n" << std::endl;
+		std::cout << "2. We're going to test Map!\n" << std::endl;
 		break;
 	case 3:
-		std::cout << "3. We're going to test Array!\n" << std::endl;
+		std::cout << "3. We're going to test Set!\n" << std::endl;
 		break;
 	case 4:
 		std::cout << "4. We're going to test Iterator!\n" << std::endl;
