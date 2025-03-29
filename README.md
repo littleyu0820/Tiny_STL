@@ -7,7 +7,7 @@
 
 
 # Language
-* ### C++
+* ### C++ [here](https://zh.wikipedia.org/zh-tw/C%2B%2B)
 
 # System
 * ### Windows 10/11
