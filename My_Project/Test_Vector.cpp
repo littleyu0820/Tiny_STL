@@ -4,166 +4,71 @@
 #include "MyVector.h"
 void test_vector()
 {
-	Test consturct
-	MyVector<int> vec, vec2, vec3;
 
-	Test push
-	vec.push_back(10);
-	vec.push_back(20);
-	vec.push_back(30);
-	vec.push_back(40);
-	vec.push_back(50);
+	std::cout << "Test push_back()..." << std::endl;
 
-	vec2.push_back(10);
-	vec2.push_back(20);
-	vec2.push_back(30);
-
-
-
-	Marks();
-
-	std::cout << "Test index. " << std::endl;
-	std::cout << "Vec: " << std::flush;
-	Test array
-	for (size_t i = 0; i < vec.get_size(); ++i)
+	MyVector<int> Vec1;
+	std::cout << "Vec1(int) is created." << std::endl;
+	std::cout << "Please enter the numbers you want to push_back(MAX:5)\n" << ":" << std::flush;
+	int input = 0, counter = 0;
+	while (counter++ != 5 && std::cin >> input)
 	{
-		std::cout << vec[i] << " " << std::flush;
+		Vec1.push_back(input);
+		std::cout << ":" << std::flush;
+	}
+
+	std::cout << "Vec1(int) is: " << std::flush;
+	for (auto val : Vec1)
+	{
+		std::cout << val << " " << std::flush;
 	}
 
 	Marks();
 
-
-	Test copy
-	MyVector<int> vec4(vec);
-	std::cout << "Copy Vec into Vec4. " << std::endl;
-	std::cout << "Vec4: " << std::flush;
-	for (auto v : vec4)
+	std::cout << "Test pop_back()..." << std::endl;
+	Vec1.pop_back();
+	std::cout << "Vec1(int) is: " << std::flush;
+	for (auto val : Vec1)
 	{
-		std::cout << v << " ";
+		std::cout << val << " " << std::flush;
 	}
 
 	Marks();
 
-	Test assign
-	vec3 = vec;
-	std::cout << "Assign Vec into Vec3. " << std::endl;
-	std::cout << "Vec: " << std::flush;
-	for (auto v : vec)
+	std::cout << "Test Copy_Constructor..." << std::endl;
+	MyVector<int> Vec2 = Vec1;
+	std::cout << "Copied Vec1 to Vec2..." << std::endl;
+	std::cout << "Vec2(int) is: " << std::flush;
+	for (auto val : Vec2)
 	{
-		std::cout << v << " ";
+		std::cout << val << " " << std::flush;
 	}
-
 	Marks();
 
-	std::cout << "Vec3: " << std::flush;
-	for (auto v : vec3)
+	std::cout << "Test Move_Constructor..." << std::endl;
+	MyVector<int> Vec3 = std::move(Vec2);
+	std::cout << "Moved Vec2 to Vec3..." << std::endl;
+	std::cout << "Vec2(int) is: " << std::flush;
+	for (auto val : Vec2)
 	{
-		std::cout << v << " ";
+		std::cout << val << " " << std::flush;
 	}
-
-	Marks();
-
-	Test moving
-	Before moving
-	std::cout << "Move Vec2 into Vec5. " << std::endl;
-	std::cout << "Vec2: " << std::flush;
-	for (auto v : vec2)
+	std::cout << "\nVec3(int) is: " << std::flush;
+	for (auto val : Vec3)
 	{
-		std::cout << v << " ";
+		std::cout << val << " " << std::flush;
 	}
-
-
 	Marks();
 
-	MyVector<int> vec5 = std::move(vec2);//convert vec2 to rvalue and use moving
-	After moving
-	std::cout << "Vec2: " << std::flush;
-	for (auto v : vec2)
+	std::cout << "Test Initialize..." << std::endl;
+	MyVector<int> Vec4(Vec1);
+	std::cout << "Initialized Vec4 by Vec1..." << std::endl;
+	std::cout << "Vec4(int) is: " << std::flush;
+	for (auto val : Vec4)
 	{
-		std::cout << v << " ";
+		std::cout << val << " " << std::flush;
 	}
-
 	Marks();
-
-	std::cout << "Vec5: " << std::flush;
-	for (auto v : vec5)
-	{
-		std::cout << v << " ";
-	}
-
-	Marks();
-
-	Test pop
-	std::cout << "Test pop." << std::endl;
-	std::cout << "Vec: " << std::flush;
-	vec.pop_back();
-
-	for (auto v : vec)
-	{
-		std::cout << v << " ";
-	}
-
-	test capacity realloacate
-	std::cout << "\n" << "After pop the size for vec is: " << vec.get_size()
-		<< ".\n" << "And the capacity for vec is: " << vec.get_capacity() << "." << std::endl;
-
-	Marks();
-
-
-	auto beg = vec.begin();
-	auto end = vec.end();
-
-
-	std::cout << "The address of begin: " << &beg << std::endl;
-
-
-	std::cout << "Begin: " << *beg << std::endl; //begin
-	std::cout << "Begin move back(1): " << *(++beg) << std::endl; //++ prefix
-	std::cout << "Gonna do posfix increment: " << *(beg++) << std::endl; //++ postfix
-	std::cout << "After postfix increment: " << *beg << std::endl; //++ postfix
-
-
-	Marks();
-
-	std::cout << "The address of end: " << &end << std::endl;
-
-	std::cout << "End: " << *end << std::endl; //end null or whatever the value it was
-	std::cout << "End move front(1): " << *(--end) << std::endl; //-- prefix
-	std::cout << "Gonna do postfix decrement: " << *(beg--) << std::endl; //-- postfix
-	std::cout << "After postfix decrement: " << *beg << std::endl; //-- postfix
-
-	Marks();
-
-
-	beg = vec.begin();
-	end = vec.end();
-
-	std::cout << "Vec: " << std::flush;
-	while (beg != end)
-	{
-		std::cout << *(beg++) << " " << std::flush;
-	}
-
-	Marks();
-
-
-	std::cout << "The first element for vec is: " << vec.front() << std::endl;
-	std::cout << "The last element for vec is: " << vec.back() << std::endl;
-
-	if (!vec.empty())
-		std::cout << "The vector vec is not empty!" << "\nAnd the size for vec is: " << vec.get_size() << std::endl;
-	else
-		std::cout << "The vector vec is empty!" << std::endl;
-
-	vec.clear();
-
-
-	if (!vec.empty())
-		std::cout << "After clear the vector vec is not empty!" << std::endl;
-	else
-		std::cout << "After clear the vector vec is empty!" << " \nAnd the size for vec is: " << vec.get_size() << std::endl;
-
-
 
 	std::cout << "Do you want to clear the screen?(Yes or No) " << "\n";
 	std::cout << ": " << std::flush;
@@ -176,45 +81,65 @@ void test_vector()
 	if (YesOrNo == "yes")
 		std::system("cls");
 
-
-	Test the other type and access the value by user
-
-	MyVector<std::string> test_vec;
-	std::string input;
-	unsigned ctr = 0;
-
-	std::cout << "This is a test please enter any numbers or words.(Max:5)" << std::endl;
-	std::cout << ": " << std::flush;
-	std::cin.get();
-	while (ctr++ < 5 && getline(std::cin, input))
+	std::cout << "Test Inedx for Vec1...\n" << "Please enter what index you want to search\n" << ":" << std::flush;
+	std::cout << "Vec1(int) is: " << std::flush;
+	for (auto val : Vec1)
 	{
-		if (ctr < 5)
-			std::cout << ": " << std::flush;
-		test_vec.push_back(input);
-
+		std::cout << val << " " << std::flush;
 	}
+	std::cout << "\n:" << std::flush;
+	std::cin >> input;
+	std::cout << "The element at index " << input << " is: " << Vec1[input] << std::flush;
+	Marks();
 
-	std::cout << "The test_vec is: " << std::flush;
-	auto begg = test_vec.begin();
-	while (begg != test_vec.end())
-		std::cout << *(begg++) << " " << std::flush;
+	std::cout << "Test get_size() and get_capacity() for Vec1..." << std::endl;
+	std::cout << "The size for Vec1 is: " << Vec1.get_size() << " and the capacity for Vec1 is: " << Vec1.get_capacity() << std::endl;
+	Marks();
 
+	std::cout << "Test Iterator for Vec1..." << std::endl;
+	auto beg = Vec1.begin();
+	std::cout << "Iterator begin for Vec1 is: " << *beg << "."<< std::endl;
+
+	Marks();
+	std::cout << "Test Insert() for Vec1..." << std::endl;
+	std::cout << "Please enter the value you want to insert\n" << ":" << std::flush;
+	int value = 0, step = 0;
+	std::cin >> value;
+	std::cout << "Please enter the steps you want to move from begin\n" << std::flush;
+	std::cin >> step;
+	auto move_steps = beg + step;
+	Vec1.insert(move_steps, value);
+	std::cout << "Vec1(int) is: " << std::flush;
+	for (auto val : Vec1)
+	{
+		std::cout << val << " " << std::flush;
+	}
+	std::cout << "\nThe size for Vec1 is: " << Vec1.get_size() << " and the capacity for Vec1 is: " << Vec1.get_capacity() << std::endl;
+	Marks();
+	std::cout << "Test erase() for Vec1..." << std::endl;
+	std::cout << "Please enter the steps you want to move from begin\n" << ":" << std::flush;
+	std::cin >> step;
+	move_steps = beg + step;
+	Vec1.erase(move_steps);
+	std::cout << "Vec1(int) is: " << std::flush;
+	for (auto val : Vec1)
+	{
+		std::cout << val << " " << std::flush;
+	}
+	std::cout << "\nThe size for Vec1 is: " << Vec1.get_size() << " and the capacity for Vec1 is: " << Vec1.get_capacity() << std::endl;
+	Marks();
+
+	std::cout << "Test Clear() for Vec1... " << std::endl;
+	bool emptyornot = Vec1.empty();
+	std::cout << ((emptyornot) ? "Vec1 is empty now." : "Vec1 is not empty now.") << std::endl;
+	std::cout << "So after clear..." << std::endl;
+	Vec1.clear();
+	std::cout << "Vec1(int) is: " << std::flush;
+	for (auto val : Vec1)
+	{
+		std::cout << val << " " << std::flush;
+	}
 	Marks();
 
 
-	std::cout << "the first element is: " << test_vec.front() << std::endl;
-	std::cout << "the last element is: " << test_vec.back() << std::endl;
-
-	if (!test_vec.empty())
-		std::cout << "the vector is not empty!" << "\nand the size is: " << test_vec.get_size() << std::endl;
-	else
-		std::cout << "the vector is empty!" << std::endl;
-
-	test_vec.clear();
-
-
-	if (!test_vec.empty())
-		std::cout << "After clear the vector is not empty!" << std::endl;
-	else
-		std::cout << "After clear the vector is empty!" << " \nAnd the size is: " << test_vec.get_size() << std::endl;
 }
