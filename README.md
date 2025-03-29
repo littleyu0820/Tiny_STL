@@ -30,10 +30,10 @@
 ### 2. Support Dynamic Allocate Memory
 
 # Implement Guide:
-## Step1: Download Main.cpp, Test_Vector.cpp, Print_Blocks.cpp, Marks.cpp, and MyVecotr.h
-## Step2: Run Main.cpp and you can start
-## Note: The other containers such as map, set, ...etc are still updating.
-## Note: Except for MyVecotr.h is the necessary header file, the other files are Optional
+* ### Step1: Download Main.cpp, Test_Vector.cpp, Print_Blocks.cpp, Marks.cpp, and MyVecotr.h
+* ### Step2: Run Main.cpp and you can start
+* ### Note1: The other containers such as map, set, ...etc are still updating.
+* ### Note2: Except for MyVecotr.h is the necessary header file, the other files are Optional
 
 
 
