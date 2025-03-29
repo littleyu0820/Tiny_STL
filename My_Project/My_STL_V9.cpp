@@ -6,8 +6,6 @@
 #include <typeinfo>
 
 
-
-
 template <typename T> class MyVector
 {
 public:
@@ -63,7 +61,7 @@ public:
 			return *t_ptr;
 		}
 
-		T* operator->() 
+		T* operator->() //used to access member
 		{
 			return t_ptr;
 		}
@@ -110,7 +108,7 @@ public:
 		//and we call beg+1 so that const will make sure that this will not be modified
 		//why should we make it be unmodified, be const since that we just move the pointer not modify the container, 
 		//if we modify the begin it means that the container will also be modify because the begin is not at the same positon
-		Iterator operator+(std::ptrdiff_t pos) const&
+		Iterator operator+(std::ptrdiff_t pos) const& 
 		{
 			Iterator tmp = *this;
 			tmp.t_ptr += pos;
@@ -197,13 +195,14 @@ public:
 		}
 		alloc.destroy(--size);
 	}
+
+	//used to insert in anywhere of the container
 	Iterator insert(Iterator& it, const T& val)
 	{
 
 		int ctr = 0;
-		while (it-- != begin())
+		while (it-- != begin()) //used to record how many steps we need to move
 			++ctr;
-
 		if (ctr > get_size()) //check whether the iterator(position) is legal or not
 		{
 			std::cerr << "Error: in function " << __func__ << " at line " << __LINE__
@@ -212,14 +211,14 @@ public:
 			return begin();
 		}
 
-		size_t reserved_space = get_capacity() - get_size(); //how much space we can use(insert)
+		size_t reserved_space = get_capacity() - get_size(); //how much space we can use
 
-		if (reserved_space <= ctr) //is the space is not enough reallocate
+		if (reserved_space <= ctr) //if the space is not enough reallocate
 		{
 			reallocate(get_capacity() == 0 ? 1 : get_capacity() * 2);
 		}
 
-		auto start = begin() + ctr;
+		auto start = begin() + ctr; //from here to insert
 		auto tmp = *start;
 		auto next_tmp = *(start + 1);
 		*start = val;
@@ -229,12 +228,11 @@ public:
 			tmp = next_tmp;
 			next_tmp = *(start + 1);
 		}
-
 		size += 1;
 		return begin() + ctr;
 	}
 
-	Iterator insert(Iterator&& it, const T& val)
+	Iterator insert(Iterator&& it, T&& val)
 	{
 		int ctr = 0;
 		while (it-- != begin())
@@ -270,7 +268,7 @@ public:
 		return begin() + ctr;
 	}
 
-	void erase(const Iterator& it)
+	Iterator erase(const Iterator& it) //used to erase the specific element
 	{
 		int ctr = 0;
 		while (it-- != begin())
@@ -280,23 +278,24 @@ public:
 			std::cerr << "Error: in function " << __func__ << " at line " << __LINE__
 				<< " Compiled on " << __DATE__ << " at " << __TIME__ << std::endl
 				<< "The iterator is out of range." << std::endl;
-			return;
+			return it;
 		}
 		else
 		{
 			auto deleted = the_first + ctr;
-			auto temp = deleted + 1;
+			auto temp = deleted;
 			while (deleted != size)
 			{
 				*(deleted) = *(deleted + 1);
 				++deleted;
 			}
 			size -= 1;
+			return Iterator(temp);
 
 		}
 	}
 
-	void erase(Iterator&& it)
+	Iterator erase(Iterator&& it) & noexcept
 	{
 		int ctr = 0;
 		while (it-- != begin())
@@ -306,18 +305,19 @@ public:
 			std::cerr << "Error: in function " << __func__ << " at line " << __LINE__
 				<< " Compiled on " << __DATE__ << " at " << __TIME__ << std::endl
 				<< "The iterator is out of range." << std::endl;
-			return;
+			return it;
 		}
 		else
 		{
 			auto deleted = the_first + ctr;
-			auto temp = deleted + 1;
+			auto temp = deleted;
 			while (deleted != size)
 			{
 				*(deleted) = *(deleted + 1);
 				++deleted;
 			}
 			size -= 1;
+			return Iterator(temp);
 		}
 	}
 
@@ -340,6 +340,36 @@ public:
 	}
 	//same function but this is for unmodified(const) container
 	const T& operator[](size_t index) const
+	{
+		if (index >= get_size()) //check whether the index is out of range or not
+		{
+			std::cerr << "Error: in function " << __func__ << " at line " << __LINE__
+				<< " Compiled on " << __DATE__ << " at " << __TIME__ << std::endl
+				<< "The index " << index << " is too big." << std::endl;
+			exit(1);
+		}
+		else
+		{
+			return the_first[index];
+		}
+	}
+
+	T& at(size_t index) //kind iof like index
+	{
+		if (index >= get_size()) //check whether the index is out of range or not
+		{
+			std::cerr << "Error: in function " << __func__ << " at line " << __LINE__
+				<< " Compiled on " << __DATE__ << " at " << __TIME__ << std::endl
+				<< "The index " << index << " is too big." << std::endl;
+			exit(1);
+		}
+		else
+		{
+			return the_first[index];
+		}
+
+	}
+	const T& at(size_t index) const
 	{
 		if (index >= get_size()) //check whether the index is out of range or not
 		{
@@ -385,6 +415,80 @@ public:
 			rhs.the_first = rhs.size = rhs.capacity = nullptr;
 		}
 		return *this;
+	}
+
+	bool operator==(const MyVector& rhs) const
+	{
+		if (get_size() != rhs.get_size())
+			return false;
+		else
+		{
+			auto lbeg = begin();
+			auto rbeg = rhs.begin();
+			while (rbeg != rhs.end())
+			{
+				if (*lbeg == *rbeg)
+					++lbeg;
+				++rbeg;
+			}
+			if (lbeg == end())
+				return true;
+			else
+				return false;
+		}
+	}
+
+	bool operator!=(const MyVector& rhs) const
+	{
+		if (get_size() != rhs.get_size())
+			return true;
+		else
+		{
+			auto lbeg = begin();
+			auto rbeg = rhs.begin();
+			while (rbeg != rhs.end())
+			{
+				if (*lbeg == *rbeg)
+					++lbeg;
+				++rbeg;
+			}
+			if (lbeg == end())
+				return false;
+			else
+				return true;
+		}
+	}
+
+	bool operator<(const MyVector& rhs) const
+	{
+		auto lbeg = begin();
+		auto rbeg = rhs.begin();
+
+		while (rbeg != rhs.end())
+		{
+			if (*lbeg < *rbeg)
+				return true;
+			else if (*lbeg++ == *rbeg++)
+				;
+			else
+				return false;
+		}
+	}
+
+	bool operator>(const MyVector& rhs) const
+	{
+		auto lbeg = begin();
+		auto rbeg = rhs.begin();
+
+		while (lbeg != end())
+		{
+			if (*lbeg < *rbeg)
+				return false;
+			else if (*lbeg++ == *rbeg++)
+				;
+			else
+				return true;
+		}
 	}
 
 	//const size_t get_size() { return size - the_first; }
@@ -496,6 +600,48 @@ public:
 			while (get_size() != input)
 				push_back(T());
 		}
+		else
+		{
+			std::cerr << "Warning: in function " << __func__ << " at line " << __LINE__
+				<< " Compiled on " << __DATE__ << " at " << __TIME__ << std::endl
+				<< "The input size you want to modify is equal to the old one." << std::endl;
+			return;
+		}
+	}
+
+	void resize(size_t input, const T& element) //modify the size
+	{
+		if (get_size() > input) //check the input is greater than the old size or not
+		{
+			std::cerr << "Warning: in function " << __func__ << " at line " << __LINE__
+				<< " Compiled on " << __DATE__ << " at " << __TIME__ << std::endl
+				<< "The input size you want to modify is equal to or less than the old one." << std::endl;
+			return;
+		}
+		else
+		{
+			reserve(input);
+			while (get_size() != input)
+				push_back(element);
+		}
+	
+	}
+
+	void resize(size_t input, T&& element) //modify the size
+	{
+		if (get_size() >= input) //check the input is greater than the old size or not
+		{
+			std::cerr << "Warning: in function " << __func__ << " at line " << __LINE__
+				<< " Compiled on " << __DATE__ << " at " << __TIME__ << std::endl
+				<< "The input size you want to modify is equal to or less than the old one." << std::endl;
+			return;
+		}
+		else
+		{
+			reserve(input);
+			while (get_size() != input)
+				push_back(element);
+		}
 	}
 
 	void shrink_to_fit() //modify the capacity to fit size
@@ -585,12 +731,7 @@ void test_iterator();
 int main()
 {
 	
-
-
-	
-	
-	
-	int choose = print_blocks();
+	/*int choose = print_blocks();
 	switch (choose)
 	{
 	case 1:
@@ -607,7 +748,7 @@ int main()
 		break;
 	default:
 		break;
-	}
+	}*/
 
 
 	return 0;
