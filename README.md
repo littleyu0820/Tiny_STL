@@ -3,7 +3,8 @@
 
 # Overview
 ### This is a project based on C++11, I'm gonna to make a tiny STL. Keep update until complete the functions.
-### If you don't really understand the how does the function do or its principle, I comment most of the functions or you can also feel free to ask me.
+### If you don't really understand the how does the function do or its principle, I comment most of the functions. After that if you still don't understand feel free to ask me.
+
 
 # Language
 * ### C++
