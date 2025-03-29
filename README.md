@@ -25,7 +25,7 @@
 ### 9. Create at()
 ### 10. Create Vector Comparing( > , == , != , <)
 ### 11. Create resize(), shrink_to_fit() and reserve()
-## ---------------------------------------------
+### ---------------------------------------------
 ### 1. Support Copy and Swap
 ### 2. Support Dynamic Allocate Memory
 
