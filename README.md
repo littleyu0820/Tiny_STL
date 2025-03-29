@@ -16,20 +16,20 @@
 * ### Visual Studio 2022 [here](https://visualstudio.microsoft.com/zh-hant/downloads/)
 
 # Completed Functions
-### 1. Create Constructor(Rule Of Five)
-### 2. Create push_back() and pop_back()
-### 3. Create realloacate()
-### 4. Create empty() and clear()
-### 5. Create free()
-### 6. Create Iterator
-### 7. Create inset() and erase()
-### 8. Create index search
-### 9. Create at()
-### 10. Create Vector Comparing( > , == , != , <)
-### 11. Create resize(), shrink_to_fit() and reserve()
+* ### Create Constructor(Rule Of Five)
+* ### Create push_back() and pop_back()
+* ### Create realloacate()
+* ### Create empty() and clear()
+* ### Create free()
+* ### Create Iterator
+* ### Create inset() and erase()
+* ### Create index search
+* ### Create at()
+* ### Create Vector Comparing( > , == , != , <)
+* ### Create resize(), shrink_to_fit() and reserve()
 ### ---------------------------------------------
-### 1. Support Copy and Swap
-### 2. Support Dynamic Allocate Memory
+* ### Support Copy-and-Swap
+* ### Support Dynamic Allocate Memory
 
 # Implement Guide:
 * ### Step1: Download Main.cpp, Test_Vector.cpp, Print_Blocks.cpp, Marks.cpp, and MyVecotr.h
