@@ -462,3 +462,6 @@ std::pair<T*, T*> copy_alloc(const T* b, const T* e)
 ```
 
 # Completed Functions for List
+* ### Create Constructor
+* ### Create push_back()
+* ### Create print()  
