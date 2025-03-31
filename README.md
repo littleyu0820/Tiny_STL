@@ -2,7 +2,7 @@
 ### Create a tiny STL in C++11 for myself.
 
 # Overview
-### This is a project based on C++11, I'm gonna to make a tiny STL. Keep update until complete the functions.
+### This is a project based on C++11, I'm gonna to make a tiny STL(Include [Vector](), [List]()). Keep update until complete the functions.
 ### If you don't really understand the how does the function do or its principle, I comment most of the functions. After that if you still don't understand feel free to ask me. [here](https://www.youtube.com/@%E6%B5%81%E9%9B%B2%E7%9A%84%E7%A8%8B%E5%BC%8F%E7%AD%86%E8%A8%98)
 
 
@@ -14,10 +14,6 @@
 
 # Compiler
 * ### Visual Studio 2022 [here](https://visualstudio.microsoft.com/zh-hant/downloads/)
-
-# Table of Contents
-* ### ☁️[Vector]()
-* ### ☁️[List]()
 
 
 # Completed Functions for Vector
