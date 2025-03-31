@@ -15,7 +15,7 @@
 # Compiler
 * ### Visual Studio 2022 [here](https://visualstudio.microsoft.com/zh-hant/downloads/)
 
-# Completed Functions
+# Completed Functions for Vector
 * ### Create Constructor(Rule Of Five)
 * ### Create push_back() and pop_back()
 * ### Create realloacate()
@@ -31,7 +31,7 @@
 * ### Support Copy-and-Swap
 * ### Support Dynamic Allocate Memory
 
-# Implement Guide:
+# Implement Guide for Vector:
 * ### Step1: Download Main.cpp, Test_Vector.cpp, Print_Blocks.cpp, Marks.cpp, and MyVecotr.h
 * ### Step2: Run Main.cpp and you can start
 * ### Note1: The other containers such as map, set ...,etc are still updating.
@@ -39,7 +39,7 @@
 
 
 
-# Details for Important Functions
+# Details for Important Functions in Vector
 ## 1. Default Constructor:
 ```c++
 MyVector() : the_first(nullptr), size(nullptr), capacity(nullptr)
