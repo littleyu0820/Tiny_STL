@@ -22,13 +22,13 @@
 * ### Create realloacate()
 * ### Create empty() and clear()
 * ### Create free()
-* ### Create Iterator
 * ### Create inset() and erase()
 * ### Create index search
 * ### Create at()
 * ### Create Vector Comparing( > , == , != , <)
 * ### Create resize(), shrink_to_fit() and reserve()
 ### ---------------------------------------------
+* ### Support Iterator
 * ### Support Copy-and-Swap
 * ### Support Dynamic Allocate Memory
 
@@ -462,6 +462,14 @@ std::pair<T*, T*> copy_alloc(const T* b, const T* e)
 ```
 
 # Completed Functions for List
-* ### Create Constructor
+* ### Create Constructor(Rule of Five)
 * ### Create push_back()
+* ### Create pop_back()
+* ### Create push_front()
+* ### Create pop_front()
+* ### Create get_size()
+* ### Create empty()
+* ### Create clear()
 * ### Create print()  
+### ---------------------------------------------
+* ### Support Iterator
