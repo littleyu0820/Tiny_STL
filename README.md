@@ -463,13 +463,27 @@ std::pair<T*, T*> copy_alloc(const T* b, const T* e)
 
 # Completed Functions for List
 * ### Create Constructor(Rule of Five)
+* ### Create front()
+* ### Create back()
 * ### Create push_back()
 * ### Create pop_back()
 * ### Create push_front()
 * ### Create pop_front()
 * ### Create get_size()
+* ### Create insert()
+* ### Create erase()
+* ### Create sort()
+* ### Create merge()
+* ### Create splice()
+* ### Create unique()
+* ### Create swap()
+* ### Create reverse()
+* ### Create get_size()
+* ### Create resize()
 * ### Create empty()
 * ### Create clear()
 * ### Create print()  
 ### ---------------------------------------------
 * ### Support Iterator
+* ### Support Merge-Sort
+* ### Support Slice
