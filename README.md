@@ -840,13 +840,12 @@ MyList<T> MyList<T>::mergesort(MyList<T>& list)
 	if (list.size <= 1)
 		return list;
 
-	// 1 41 35 9 15 51 41
 	auto slow_ptr = list.begin(), fast_ptr = list.begin();
 	while (fast_ptr != list.end() && fast_ptr.next(fast_ptr, 1) != list.end())
 	{
 		++slow_ptr;
 		fast_ptr = fast_ptr.next(fast_ptr, 2);
-	} //slow 9 fast 41
+	} 
 
 	MyList<T> left_side(list.begin(), slow_ptr);
 	MyList<T> right_side(slow_ptr, list.end());
