@@ -487,3 +487,6 @@ std::pair<T*, T*> copy_alloc(const T* b, const T* e)
 * ### Support Iterator
 * ### Support Merge-Sort
 * ### Support Slice
+
+# Details for Important Functions in Vector
+## 1. Default Constructor:
