@@ -482,7 +482,7 @@ std::pair<T*, T*> copy_alloc(const T* b, const T* e)
 
 # Details for Important Functions in Vector
 ## 1. Default Constructor:
-## Used to create the node.
+### Used to create the node.
 ```c++
 template<typename T>
 struct ListNode //the struct of the node
@@ -498,7 +498,7 @@ struct ListNode //the struct of the node
 
 };
 ```
-## Used to create the list.
+### Used to create the list.
 ```c++
 	MyList() : virtual_tail(new ListNode<T>(T())), head(nullptr), tail(nullptr), size(0)
 	{
@@ -627,7 +627,7 @@ struct ListNode //the struct of the node
 	}
 ```
 ## 2. Unique:
-## Used to remove the repeat element.
+### Used to remove the repeat element.
 ```c++
 template<typename T>
 void MyList<T>::unique()
@@ -674,7 +674,7 @@ void MyList<T>::unique()
 }
 ```
 ## 3. Slice:
-## Used to copy the element in a limited range.
+### Used to copy the element in a limited range.
 ```c++
 template<typename T>
 void MyList<T>::slice(size_t left, size_t right, MyList<T>& newlist)
@@ -689,8 +689,8 @@ void MyList<T>::slice(size_t left, size_t right, MyList<T>& newlist)
 }
 ```
 ## 4. Splice:
-## Used to cut the element in a limited range.
-## Note: We cut the list, so the old one will be modified.
+### Used to cut the element in a limited range.
+### Note: We cut the list, so the old one will be modified.
 ```c++
 template<typename T>
 void MyList<T>::splice(List_Iterator& target_pos, MyList<T>& list, List_Iterator& left, List_Iterator& right)
@@ -786,7 +786,7 @@ MyList<T>& MyList<T>::sort() //Bubble sort
 }
 ```
 ## 6. Merge:
-## Used to combie two sorted list.
+### Used to combie two sorted list.
 ```c++
 template<typename T>
 MyList<T> MyList<T>::merge(MyList<T>& list1, MyList<T>& list2)
