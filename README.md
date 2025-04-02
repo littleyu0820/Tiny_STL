@@ -482,3 +482,146 @@ std::pair<T*, T*> copy_alloc(const T* b, const T* e)
 
 # Details for Important Functions in Vector
 ## 1. Default Constructor:
+```c++
+template<typename T>
+struct ListNode //the struct of the node
+{
+	T data; //store the element in the node
+	ListNode<T>* preptr; //the normal pointer to help us access the last node
+	ListNode<T>* nextptr;
+	//the unique_ptr point to the next node which means that this pointer has the possession of the next node
+
+	//Constructor
+	ListNode(const T& val) : data(val), preptr(nullptr), nextptr(nullptr) {}
+	ListNode(T&& val) : data(val), preptr(nullptr), nextptr(nullptr) {}
+
+};
+```
+## Used to create the node.
+```c++
+	MyList() : virtual_tail(new ListNode<T>(T())), head(nullptr), tail(nullptr), size(0)
+	{
+		std::cout << "Default Constructor..." << std::endl;
+	}
+```
+```c++
+	//Direct-Initialization
+	MyList(std::initializer_list<T> il) :
+		virtual_tail(new ListNode<T>(T())), head(nullptr), tail(nullptr), size(0)
+	{
+		std::cout << "Initialize List Constructor..." << std::endl;
+		auto beg = il.begin();
+		while (beg != il.end())
+		{
+			push_back(*beg++);
+		}
+
+	}
+```
+```c++
+	//Construct by Iterator
+	MyList(List_Iterator b, List_Iterator e) :
+		virtual_tail(new ListNode<T>(T())), head(nullptr), tail(nullptr), size(0)
+	{
+		std::cout << "Iterator Constructor..." << std::endl;
+		while (b != e)
+			push_back(*b++);
+	}
+```
+```c++
+	MyList(const MyList& list) : virtual_tail(new ListNode<T>(T())), head(nullptr), tail(nullptr), size(0)
+	{
+		std::cout << "Copy Constructor..." << std::endl;
+		auto temp = list.head;
+		while (temp->nextptr)
+		{
+			push_back(temp->data);
+			temp = temp->nextptr;
+		}
+	}
+```
+```c++
+	MyList& operator=(const MyList& list)
+	{
+		std::cout << "Assign by copying..." << std::endl;
+		if (this != &list)
+		{
+			if (!empty())
+				clear();
+
+			auto temp = list;
+			while (temp->nextptr)
+			{
+				push_back(temp->data);
+				temp = temp->nextptr;
+			}
+		}
+
+		return *this;
+	}
+```
+```c++
+	//Move-Constructor
+	MyList(MyList&& list) noexcept :
+		head(list.head), tail(list.tail), size(list.size)
+	{
+		std::cout << "Move Cosntructor..." << std::endl;
+		if (list.empty())
+			virtual_tail = new ListNode<T>(T());
+		else
+		{
+			virtual_tail = list.virtual_tail;
+			list.virtual_tail = nullptr;
+		}
+
+		list.virtual_tail = list.head = list.tail = nullptr;
+		list.size = 0;
+	}
+```
+```c++
+	//Move-Assing and it will call Move-Constructor
+	MyList& operator=(MyList&& list) noexcept
+	{
+		std::cout << "Assign by moving..." << std::endl;
+		std::cout << "Moving head: " << list.head->data << std::endl;
+		std::cout << "Moving tail: " << list.tail->data << std::endl;
+		std::cout << "Moving virtual_tail: " << list.virtual_tail->data << std::endl;
+		std::cout << "Moving size: " << list.size << std::endl;
+
+		if (this != &list)
+		{
+			if (!empty())
+				clear();
+			head = list.head;
+			tail = list.tail;
+			size = list.size;
+			virtual_tail = list.virtual_tail;
+			list.virtual_tail = list.head = list.tail = nullptr;
+			list.size = 0;
+		}
+		return *this;
+	}
+```
+
+```c++
+	//Destructor
+	~MyList() noexcept
+	{
+		if (head)
+		{
+			std::cout << "Destructor..." << std::endl;
+			free();
+		}
+	}
+	void free() //used to destruct
+	{
+		while (head->nextptr) //if the next node is not exit, it means that it is the end(virtual tail), we need to delete it later
+		{
+			ListNode<T>* tmp = head;
+			head = head->nextptr;
+			std::cout << "Deleting " << tmp->data << "..." << std::endl;
+			delete tmp;
+		}
+		delete virtual_tail;
+	}
+```
