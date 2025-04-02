@@ -482,6 +482,7 @@ std::pair<T*, T*> copy_alloc(const T* b, const T* e)
 
 # Details for Important Functions in Vector
 ## 1. Default Constructor:
+## Used to create the node.
 ```c++
 template<typename T>
 struct ListNode //the struct of the node
@@ -497,7 +498,7 @@ struct ListNode //the struct of the node
 
 };
 ```
-## Used to create the node.
+## Used to create the list.
 ```c++
 	MyList() : virtual_tail(new ListNode<T>(T())), head(nullptr), tail(nullptr), size(0)
 	{
