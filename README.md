@@ -626,3 +626,261 @@ struct ListNode //the struct of the node
 		delete virtual_tail;
 	}
 ```
+## 2. Unique:
+## Used to remove the repeat element.
+```c++
+template<typename T>
+void MyList<T>::unique()
+{
+	assert(!empty() && "Error: Attempt to manipulate an empty list!");
+	auto slow_ptr = head, fast_ptr = head->nextptr; //fast-and-slow pointers
+	auto start = begin() + 1; //the positon we're going to erase the element
+	auto ctr = 0;
+	while (fast_ptr->nextptr) //if there are 2 more nodes in the list
+	{
+		std::cout << slow_ptr->data << "  " << fast_ptr->data << std::endl;
+		if (slow_ptr->data == fast_ptr->data) //if same
+		{
+			auto temp = slow_ptr->data; //store the data to compare
+			//std::cout << temp << std::endl;
+			erase(start); //erase
+			std::cout << slow_ptr->data << " 222 " << fast_ptr->data << std::endl;
+			start = start + 1; //move the target
+			fast_ptr = fast_ptr->nextptr; //move 1 step
+			std::cout << slow_ptr->data << " 333 " << fast_ptr->data << std::endl;
+			while (fast_ptr && temp == fast_ptr->data) //if still same
+			{
+				erase(start);
+				start = start + 1;
+				fast_ptr = fast_ptr->nextptr;
+				++ctr;
+			}
+
+
+			fast_ptr = fast_ptr->nextptr;
+			slow_ptr = slow_ptr->nextptr;
+			start = start + 1;
+
+
+		}
+		else
+		{
+			fast_ptr = fast_ptr->nextptr;
+			slow_ptr = slow_ptr->nextptr;
+
+			start = start + 1;
+		}
+	}
+}
+```
+## 3. Slice:
+## Used to copy the element in a limited range.
+```c++
+template<typename T>
+void MyList<T>::slice(size_t left, size_t right, MyList<T>& newlist)
+{
+	assert(size > 1 && left >= 0 && right <= size && left < right && "Error: Slicing an empty or a single-node list!");
+	for (size_t index = 0; index < size; ++index)
+	{
+		if (index >= left && index < right)
+			newlist.push_back((*this)[index]);
+	}
+
+}
+```
+## 4. Splice:
+## Used to cut the element in a limited range.
+## Note: We cut the list, so the old one will be modified.
+```c++
+template<typename T>
+void MyList<T>::splice(List_Iterator& target_pos, MyList<T>& list, List_Iterator& left, List_Iterator& right)
+{
+	auto offset = right - left; //the range
+	auto beg = list.begin();
+	auto temp_h = list.head;
+	while (beg++ != left)
+		temp_h = temp_h->nextptr; //move the pointer to find the new head
+	auto temp_t = temp_h;
+	while (offset-- > 0)
+		temp_t = temp_t->nextptr; //move the pointer to find the new tail
+	if (temp_h == list.head && temp_t == list.virtual_tail) //copy the whole list 
+	{
+		if (empty()) //if the new list is empty just copy
+		{
+			head = temp_h;
+			tail = temp_t->preptr;
+			tail->nextptr = virtual_tail;
+			virtual_tail->preptr = tail;
+			size = list.size;
+		}
+		else
+		{
+			while (temp_h->nextptr) //insert
+			{
+				(*this).insert(target_pos, temp_h->data);
+				temp_h = temp_h->nextptr;
+			}
+		}
+		//clear the list
+		list.head = list.tail = nullptr;
+		list.virtual_tail = new ListNode<T>(T());
+		list.size = 0;
+		return;
+	}
+	else
+	{
+		if (temp_h == list.head) //head
+		{
+			list.head = temp_t; //since it doesn't include the right node so the new head is temp_t
+			list.head->preptr = nullptr; //break the link
+		}
+		if (temp_t == list.virtual_tail)
+		{
+			list.virtual_tail->preptr = temp_h->preptr; //link to the node before the temp_h
+			temp_h->preptr->nextptr = list.virtual_tail;
+		}
+		list.size = list.size - offset;
+		if (empty())
+		{
+			head = temp_h;
+			tail = temp_t->preptr;
+			tail->nextptr = virtual_tail;
+			virtual_tail->preptr = tail;
+			size = list.size;
+		}
+		else
+		{
+			while (temp_h->nextptr)
+			{
+				(*this).insert(target_pos, temp_h->data);
+				temp_h = temp_h->nextptr;
+			}
+		}
+		return;
+	}
+
+
+}
+
+```
+## 5. Bubble Sort:
+```c++
+template<typename T>
+MyList<T>& MyList<T>::sort() //Bubble sort
+{
+	MyList<T> newlist;
+	auto beg = begin();
+	for (int i = 0; i < size - 1; ++i)
+	{
+		for (int j = 0; j < (size - i - 1); ++j)
+		{
+			if ((*this)[j] > (*this)[j + 1])
+			{
+				T temp = (*this)[j + 1];
+				(*this)[j + 1] = (*this)[j];
+				(*this)[j] = temp;
+			}
+		}
+	}
+	return *this;
+}
+```
+## 6. Merge:
+## Used to combie two sorted list.
+```c++
+template<typename T>
+MyList<T> MyList<T>::merge(MyList<T>& list1, MyList<T>& list2)
+{
+
+	MyList<T> result;
+	while (!list1.empty() && !list2.empty())
+	{
+		if (list1.front() < list2.front())
+		{
+			result.push_back(list1.front());
+			list1.pop_front();
+
+		}
+		else
+		{
+			result.push_back(list2.front());
+			list2.pop_front();
+		}
+	}
+
+	while (!list1.empty())
+	{
+		result.push_back(list1.front());
+		list1.pop_front();
+	}
+	while (!list2.empty())
+	{
+		result.push_back(list2.front());
+		list2.pop_front();
+	}
+
+	/*result.print();
+	auto tmp = result.head;
+	size_t sz = result.get_size();
+	while (sz-- > 0)
+	{
+		std::cout << tmp->data << std::endl;
+		tmp = tmp->nextptr;
+	}*/
+
+	return result;
+}
+
+```
+## 7. 🌟🌟🌟Merge-Sort:
+```c++
+template<typename T>
+MyList<T> MyList<T>::mergesort(MyList<T>& list)
+{
+	if (list.size <= 1)
+		return list;
+
+	// 1 41 35 9 15 51 41
+	auto slow_ptr = list.begin(), fast_ptr = list.begin();
+	while (fast_ptr != list.end() && fast_ptr.next(fast_ptr, 1) != list.end())
+	{
+		++slow_ptr;
+		fast_ptr = fast_ptr.next(fast_ptr, 2);
+	} //slow 9 fast 41
+
+	MyList<T> left_side(list.begin(), slow_ptr);
+	MyList<T> right_side(slow_ptr, list.end());
+
+	left_side = mergesort(left_side);
+	right_side = mergesort(right_side);
+
+	return merge(left_side, right_side);
+
+}
+```
+## 8. Reverse:
+```c++
+template<typename T>
+void MyList<T>::reverse()
+{
+	auto cur_ptr = head->nextptr; //store the node aftet the head
+	head->nextptr = virtual_tail;
+	head->preptr = cur_ptr; //change the direction
+	virtual_tail->preptr = head;
+	tail->nextptr = nullptr; //break
+
+
+	while (cur_ptr)
+	{
+		auto tmp = cur_ptr->nextptr;
+		cur_ptr->nextptr = head;
+		cur_ptr->preptr = tmp;
+		head = head->preptr;
+		cur_ptr = tmp;
+	}
+
+	tail = virtual_tail->preptr;
+	head->preptr = nullptr;
+
+}
+```
