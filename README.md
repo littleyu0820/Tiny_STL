@@ -1,8 +1,8 @@
 # Tiny_STL
-### Create a tiny STL in C++11 for myself.
+### Create a tiny STL in C++11/14 for myself.
 
 # Overview
-### This is a project based on C++14, I'm gonna to make a tiny STL(Include [Vector](https://github.com/littleyu0820/Tiny_STL/blob/main/README.md#completed-functions-for-vector), [List](https://github.com/littleyu0820/Tiny_STL/blob/main/README.md#completed-functions-for-list),[BRT](), [Map]()). Keep updating until complete the functions.
+### This is a project based on C++11/14, I'm gonna to make a tiny STL(Include [Vector](https://github.com/littleyu0820/Tiny_STL/blob/main/README.md#completed-functions-for-vector), [List](https://github.com/littleyu0820/Tiny_STL/blob/main/README.md#completed-functions-for-list), [BRT](), [Map]()). Keep updating until complete the functions.
 ### If you don't really understand the how does the function do or its principle, I comment most of the functions. After that if you still don't understand feel free to ask me. [here](https://www.youtube.com/@%E6%B5%81%E9%9B%B2%E7%9A%84%E7%A8%8B%E5%BC%8F%E7%AD%86%E8%A8%98)
 
 
@@ -10,7 +10,7 @@
 * ### C++ [here](https://zh.wikipedia.org/zh-tw/C%2B%2B)
 
 # System
-* ### Windows 10/11
+* ### Windows 10/11, Linux
 
 # Compiler
 * ### Visual Studio 2022 [here](https://visualstudio.microsoft.com/zh-hant/downloads/)
@@ -31,12 +31,6 @@
 * ### Support Iterator
 * ### Support Copy-and-Swap
 * ### Support Dynamic Allocate Memory
-
-# Implement Guide for Vector:
-* ### Step1: Download Main.cpp, Test_Vector.cpp, Print_Blocks.cpp, Marks.cpp, and MyVecotr.h
-* ### Step2: Run Main.cpp and you can start
-* ### Note1: The other containers such as map, set ...,etc are still updating
-* ### Note2: Except for MyVecotr.h is the necessary header file, the other files are optional
 
 
 
@@ -883,3 +877,19 @@ void MyList<T>::reverse()
 
 }
 ```
+
+# Completed Functions for Map
+* ### Create Constructor(Rule Of Five)
+* ### Create push_back() and pop_back()
+* ### Create realloacate()
+* ### Create empty() and clear()
+* ### Create free()
+* ### Create inset() and erase()
+* ### Create index search
+* ### Create at()
+* ### Create Vector Comparing( > , == , != , <)
+* ### Create resize(), shrink_to_fit() and reserve()
+### ---------------------------------------------
+* ### Support Iterator
+* ### Support Copy-and-Swap
+* ### Support Dynamic Allocate Memory
