@@ -7,7 +7,7 @@
 
 
 void test();
-//v7 Black-Red tree
+//v8 Black-Red tree
 //We need to make sure that all the insertion node should be red
 //but if the tree is empty, after inserting we need to covert the node to black, since all the root should be black
 //no constant red node, but black is not limited
